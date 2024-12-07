@@ -247,5 +247,6 @@ const tabela2024 = [
         golsSofridos: 0,
         saldoGols: 0,
     }, 
-
 ];
+
+export default tabela2024;
