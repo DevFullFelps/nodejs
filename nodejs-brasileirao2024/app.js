@@ -26,6 +26,19 @@ app.get('/', (requisicao, resposta) => {
 })
 
 /*
-Uso do GET, indicando que eu quero que na página '/' (principal) eu tenha uma resposta (resposta.send) da minha tabela 2024
+Uso do GET, indicando que eu quero que na página '/' (principal) eu pegue uma resposta (resposta.send) da minha tabela 2024
+
+GET - Pegar
+POST - Postar/Publicar
+PUT - Colaocar/Alterar
+DELETE - Apagar
 
 */
+
+app.get('/:sigla', (requisicao, resposta) => {
+    const siglaInformada = requisicao.params.sigla.toUpperCase();
+    const time = tabela2024.find((infoTime) => infoTime.sigla === siglaInformada);
+    resposta.send(time);
+})
+
+//  :sigla serve para eu receber algum dado armazenado na variável sigla.
