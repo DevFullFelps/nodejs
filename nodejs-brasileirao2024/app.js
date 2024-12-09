@@ -3,6 +3,8 @@ import express from 'express';
 
 const app = express(); //Me retorna dados dentro da variável app
 
+app.use(express.json()); //Receba os dados e trate como 'JSON'
+
 app.listen(300, () => console.log('Servidor rodando com sucesso'));
 
 /*
@@ -22,7 +24,7 @@ ouvir(app);
 */
 
 app.get('/', (requisicao, resposta) => {
-    resposta.send(tabela2024)
+    resposta.status(200).send(tabela2024)
 })
 
 /*
@@ -38,7 +40,27 @@ DELETE - Apagar
 app.get('/:sigla', (requisicao, resposta) => {
     const siglaInformada = requisicao.params.sigla.toUpperCase();
     const time = tabela2024.find((infoTime) => infoTime.sigla === siglaInformada);
-    resposta.send(time);
+    if (!time) { //(!time) é o mesmo que (time === undefined)
+        resposta.status(404).send('Não existe na série A do brasileirão um time com a sigla informada');
+        return;
+    }
+    resposta.status(200).send(time);
 })
 
 //  :sigla serve para eu receber algum dado armazenado na variável sigla.
+
+app.put('/:sigla', (req, res) => {
+    const siglaInformada = req.params.sigla.toUpperCase();
+    const timeSelecionado = tabela2024.find(t => t.sigla === siglaInformada);
+    const campos = Object.keys(req.body);
+    console.log(campos);
+    for(let campo of campos){
+       timeSelecionado[campo] = req.body[campo];
+    }
+    res.status(200).send(timeSelecionado);
+
+})
+
+app.post('/')
+
+app.listen(300, () => console.log('Servidor rodando com sucesso'));
